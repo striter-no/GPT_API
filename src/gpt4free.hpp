@@ -23,7 +23,7 @@ string post(vector<pair<string, string>> vbody, string addr){
 
 enum gpt_models{
     GPT_v3p5_turbo,
-    GPT_4
+    GPT_v4
 };
 
 string ask_gpt(gpt_models model,
