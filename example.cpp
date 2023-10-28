@@ -2,13 +2,24 @@
 
 int main(){
     string responce;
-    gptProxyInit();
-    
-    responce = ask_gpt(GPT_v3p5_turbo, "Привет, какова площадь Австралии?", true);
-    cout<<"> "<<responce<<endl;
-    
-    cout<<endl;
+    // gptProxyInit();// can be started at once (for many versions of cpp program)
+    enbaleUTF8();
+    enableContext();
 
-    responce = ask_gpt(GPT_v4, "Привет, какова площадь Австралии?", true);
-    cout<<"> "<<responce<<endl;
+    gpt_models model = GPT_v4;
+
+    wcout<<ask_gpt(model, L"Привет!")<<endl<<endl;
+    while(true){
+        wstring question;
+        do{
+            wstring t;
+            wcin>>t;
+            question += t + L' ';
+        }while(wcin.peek()!='\n');
+        // getline "improvisation"
+        
+
+        wcout<<(ask_gpt(model, question, false, true))<<endl<<endl;
+    }
+
 }

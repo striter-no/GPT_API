@@ -27,9 +27,26 @@ g++ -o example example.cpp -I src -lws2_32
 #include "gpt4free.hpp"
 
 int main(){
-    gptProxyInit();
-    
-    string responce = ask_gpt(GPT_v3p5_turbo, "Привет, какова площадь Австралии?", true);
-    cout<<"> "<<responce<<endl;
+    string responce;
+    // gptProxyInit();// can be started at once (for many versions of cpp program)
+    enbaleUTF8();
+    enableContext();
+
+    gpt_models model = GPT_v4;
+
+    wcout<<ask_gpt(model, L"Привет!")<<endl<<endl;
+    while(true){
+        wstring question;
+        do{
+            wstring t;
+            wcin>>t;
+            question += t + L' ';
+        }while(wcin.peek()!='\n');
+
+        wcout<<(ask_gpt(model, question, false, true))<<endl<<endl;
+    }
+
 }
 ```
+
+Эта программа позволяет вести диалог с Chat GPT, и также позволяет использовать символы юникода (UTF-16)
