@@ -2,13 +2,14 @@
 
 int main(){
     string responce;
-    // gptProxyInit();// can be started at once (for many versions of cpp program)
+    gptProxyInit();// can be started at once (for many versions of cpp program)
     enbaleUTF8();
     enableContext();
 
-    gpt_models model = GPT_v4;
+    gpt_models model = GPT_v3p5_turbo;
 
-    wcout<<ask_gpt(model, L"Привет!")<<endl<<endl;
+    system("cls");
+    wcout<<ask_gpt(model, L"Привет!", false, Phind)<<endl<<endl;
     while(true){
         wstring question;
         do{
@@ -19,7 +20,7 @@ int main(){
         // getline "improvisation"
         
 
-        wcout<<(ask_gpt(model, question, false, true))<<endl<<endl;
+        wcout<<(ask_gpt(model, question, false))<<endl<<endl;
     }
 
 }

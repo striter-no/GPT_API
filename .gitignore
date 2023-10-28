@@ -1,3 +1,4 @@
 .vscode/
 __pycache__/
 *.exe
+tg_ver.py

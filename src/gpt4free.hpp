@@ -11,17 +11,15 @@
 using namespace std;
 
 bool __isContextEnabled = false;
-wstring history;
+std::wstring history;
 
 wstring_convert<codecvt_utf8_utf16<wchar_t>> converter;
-string wstringToString(wstring src){
+string wstringToString(std::wstring src){
     return converter.to_bytes(src);
 }
 
 namespace requests{
-
-
-wstring post(vector<pair<wstring, wstring>> vbody, string addr){
+std::wstring post(vector<pair<std::wstring, std::wstring>> vbody, string addr){
     http::Request request{addr};
     std::wstring body = L"{";//\"foo\": 1, \"bar\": \"baz\"}";
     int a = 0;
@@ -30,14 +28,13 @@ wstring post(vector<pair<wstring, wstring>> vbody, string addr){
         a++;
     }
     body += L"}";
-    // wcout<<body<<endl;
     const auto response = request.send("POST", wstringToString(body), {
         {"Content-Type", "application/json"}
     });
     return std::wstring{response.body.begin(), response.body.end()};
 }
 
-wstring post2(wstring vbody, string addr){
+std::wstring post2(std::wstring vbody, string addr){
     http::Request request{addr};
     const auto response = request.send("POST", wstringToString(vbody), {
         {"Content-Type", "text/plain"}
@@ -52,56 +49,43 @@ enum gpt_models{
     GPT_v4
 };
 
-wstring ask_gpt(gpt_models model,
-               wstring question,
-               bool coutingQ = false,
-               bool fromConsole = false, 
-               wstring preinstructions = L"", 
-               wstring postinstructions  = L""){
-    if(coutingQ){
-        wcout<<L"> "<<question<<endl;
-    }
-    
-    // if(__isContextEnabled && history.size()==0){
-        // if(preinstructions.size()!=0) history += preinstructions;
-        // else history += question;
-    // }
-    
-    if(__isContextEnabled){
-        history += L"#&x0SЯ:" + question + postinstructions;
-    }
+enum gpt_providers{
+    AiAsk, // Fast gpt 3.5-turbo provider , but has big requests problems
+    MyShell, // Fast gpt 4 and gpt 3.5-turbo provider, but has strong pre-settings to his character
+    ChatBase, // Fast gpt 3.5-turbo provider, has minimum settings to his character ()
+    Phind // Standart gpt 4 and gpt 3.5-turbo provider, has minimum settings to his character
+};
 
-    wstring ans;
+std::wstring ask_gpt(gpt_models model,
+                     std::wstring question,
+                     bool coutingQ = false,
+                     gpt_providers provider = Phind, 
+                     std::wstring preinstructions = L"", 
+                     std::wstring postinstructions  = L""){
+    if(coutingQ) wcout<<L"> "<<question<<endl;
+    if(__isContextEnabled) history += L"#&x0SЯ:" + question + postinstructions;
+
+    std::wstring ans;
     if(!__isContextEnabled){
         ans = requests::post2({
-            L"#&x0Smodel: " + to_wstring(model) + L"#&x0Sreq: " + preinstructions + L" --- " + question + postinstructions
+            L"#&x0S" + to_wstring(model) + L"#&x0S" + to_wstring(provider) +  L"#&x0S" + preinstructions + question + postinstructions
         }, "http://127.0.0.1:900"); // localhost (where proxy is)
     } else {
         ans = requests::post2({
-            L"#&x0Smodel: " + to_wstring(model) + L"#&x0Sreq: " + history
+            L"#&x0S" + to_wstring(model) + L"#&x0S" + to_wstring(provider) +  L"#&x0S" + history
         }, "http://127.0.0.1:900"); // localhost (where proxy is)
     }
 
-    if(__isContextEnabled){
-        history += L"#&x0SТы:" + ans;
-    }
-
+    if(__isContextEnabled) history += L"#&x0SТы:" + ans;
     return ans;
 }
 
-void enableContext(){
-    __isContextEnabled = true;
-}
-
-void disableContext(){
-    __isContextEnabled = false;
-}
+void enableContext(){ __isContextEnabled = true; }
+void disableContext(){ __isContextEnabled = false; }
 
 void enbaleUTF8(){
-    // _setmode(_fileno(stdout), _O_U16TEXT);
     _setmode(_fileno(stdin),  _O_U16TEXT);
-    _setmode(_fileno(stderr), _O_U16TEXT);
-    // SetConsoleCP(1251); 
+    _setmode(_fileno(stderr), _O_U16TEXT); 
     SetConsoleOutputCP(65001);
 }
 
