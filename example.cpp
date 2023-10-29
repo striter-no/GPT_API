@@ -19,7 +19,7 @@ int main(){
         }while(wcin.peek()!='\n');
         // getline "improvisation"
 
-        wcout<<(ask_gpt(model, question, false, gpt_providers::))<<endl<<endl;
+        wcout<<(ask_gpt(model, question, false, MyShell))<<endl<<endl;
     }
 }
 
