@@ -18,7 +18,6 @@ int main(){
             question += t + L' ';
         }while(wcin.peek()!='\n');
         // getline "improvisation"
-        
 
         wcout<<(ask_gpt(model, question, false))<<endl<<endl;
     }

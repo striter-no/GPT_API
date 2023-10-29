@@ -7,11 +7,13 @@
 - Python 3
 - Установленная python-библиотека `g4f`
 - Установленная python-библиотека `flask`
+- Установленная python-библиотека `asyncio`
 
 Библиотеки python'а можно установить через командную строку:
 ```
 pip install -U g4f
 pip install flask
+pip install asyncio
 ```
 
 Для компиляции проекта нужна такая команда:
