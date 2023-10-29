@@ -53,7 +53,8 @@ enum gpt_providers{
     AiAsk, // Fast gpt 3.5-turbo provider , but has big requests problems
     MyShell, // Fast gpt 4 and gpt 3.5-turbo provider, but has strong pre-settings to his character
     ChatBase, // Fast gpt 3.5-turbo provider, has minimum settings to his character ()
-    Phind // Standart gpt 4 and gpt 3.5-turbo provider, has minimum settings to his character
+    Phind, // Standart gpt 4 and gpt 3.5-turbo provider, has minimum settings to his character
+    Yqcloud // Fast gpt 3.5-turbo provider, has minimum settings to his character
 };
 
 std::wstring ask_gpt(gpt_models model,

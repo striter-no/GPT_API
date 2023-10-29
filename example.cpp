@@ -6,10 +6,10 @@ int main(){
     enbaleUTF8();
     enableContext();
 
-    gpt_models model = GPT_v3p5_turbo;
+    gpt_models model = GPT_v4;
 
     system("cls");
-    wcout<<ask_gpt(model, L"Привет!", false, Phind)<<endl<<endl;
+    wcout<<ask_gpt(model, L"Привет!", false, MyShell)<<endl<<endl;
     while(true){
         wstring question;
         do{
