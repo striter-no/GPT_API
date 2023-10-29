@@ -9,7 +9,7 @@ int main(){
     gpt_models model = GPT_v4;
 
     system("cls");
-    wcout<<ask_gpt(model, L"Привет!", false, MyShell)<<endl<<endl;
+    // wcout<<ask_gpt(model, L"Привет!", false, MyShell)<<endl<<endl;
     while(true){
         wstring question;
         do{
@@ -19,7 +19,7 @@ int main(){
         }while(wcin.peek()!='\n');
         // getline "improvisation"
 
-        wcout<<(ask_gpt(model, question, false))<<endl<<endl;
+        wcout<<(ask_gpt(model, question, false, gpt_providers::))<<endl<<endl;
     }
-
 }
+

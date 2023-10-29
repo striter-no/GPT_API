@@ -70,11 +70,11 @@ std::wstring ask_gpt(gpt_models model,
     if(!__isContextEnabled){
         ans = requests::post2({
             L"#&x0S" + to_wstring(model) + L"#&x0S" + to_wstring(provider) +  L"#&x0S" + preinstructions + question + postinstructions
-        }, "http://127.0.0.1:900"); // localhost (where proxy is)
+        }, "http://127.0.0.1:8000"); // localhost (where proxy is)
     } else {
         ans = requests::post2({
             L"#&x0S" + to_wstring(model) + L"#&x0S" + to_wstring(provider) +  L"#&x0S" + history
-        }, "http://127.0.0.1:900"); // localhost (where proxy is)
+        }, "http://127.0.0.1:8000"); // localhost (where proxy is)
     }
 
     if(__isContextEnabled) history += L"#&x0SТы:" + ans;
